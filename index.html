@@ -1004,6 +1004,70 @@ document.querySelectorAll('.product').forEach(p => {
     p.addEventListener('contextmenu', e => addItem(e, p));
 });
 </script>
+
+<script>
+function confirmOrder() {
+    let name = document.getElementById("customerName").value;
+    let phone = document.getElementById("customerPhone").value;
+    let address = document.getElementById("customerAddress").value;
+    let date = document.getElementById("deliveryDate").value;
+    let time = document.getElementById("deliveryTimeOnly").value;
+    let notes = document.getElementById("orderNotes").value;
+
+    let total = 0;
+    let itemsText = "";
+
+    document.querySelectorAll(".product").forEach(p => {
+        let nameItem = p.querySelector("h4").innerText;
+        let qtyEl = p.querySelector(".qty");
+        let qty = parseInt(qtyEl.textContent);
+
+        let price = parseInt(qtyEl.dataset.price);
+
+        if (qty > 0) {
+            let itemTotal = qty * price;
+            total += itemTotal;
+
+            itemsText += `
+                <div>
+                    ${nameItem} × ${qty} = ${itemTotal} ₪
+                </div>
+            `;
+        }
+    });
+
+    if (total === 0) {
+        alert("الرجاء اختيار منتجات أولاً");
+        return;
+    }
+
+    let invoice = `
+        <h3>فاتورة الطلب</h3>
+        <hr>
+        <div><b>الاسم:</b> ${name}</div>
+        <div><b>الجوال:</b> ${phone}</div>
+        <div><b>العنوان:</b> ${address}</div>
+        <div><b>التاريخ:</b> ${date}</div>
+        <div><b>الوقت:</b> ${time}</div>
+        <hr>
+        <h4>الأصناف:</h4>
+        ${itemsText}
+        <hr>
+        <h3>الإجمالي: ${total} ₪</h3>
+    `;
+
+    document.getElementById("modalMessage").innerText =
+        "تم استلام طلبك بنجاح وسيتم التواصل معك قريباً";
+
+    document.getElementById("invoice").innerHTML = invoice;
+
+    document.getElementById("successModal").classList.add("active");
+}
+
+function closeModal() {
+    document.getElementById("successModal").classList.remove("active");
+}
+</script>
 </body>
 </html>
 
