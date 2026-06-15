@@ -19,19 +19,14 @@
 
 body{
     background:linear-gradient(180deg,#ffffff,#f2f4f3);
-    padding:10px;
+    min-height:100vh;
+    overflow-x:hidden;
 }
-
 .container{
-    max-width:1200px;
-    width:100%;
-    margin:auto;
-    background:#fff;
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    overflow-x:hidden;
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
 }
-
 /* الهيدر */
 
 .hero{
@@ -994,10 +989,10 @@ document.getElementById('successModal').addEventListener('click',function(e){
 
 <script>
 
-function addItem(event, product){
+function addItem(e, product){
 
-    event.preventDefault(); // يمنع قائمة الكليك اليمين
-
+    e.preventDefault();
+    e.stopPropagation();
     let qtyBox = product.querySelector('.qty');
     let qty = parseInt(qtyBox.innerText) || 0;
 
